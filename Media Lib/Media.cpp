@@ -1,21 +1,21 @@
 #include "Media.h"
 
 Media::Media() {
-	char type = ' ';
-	string title = " ";
-	string keyName = " ";
-	int rating = -1;
-	string genre = " ";
-	int length = -1;
-	int yearReleased = -1;
+	type = ' ';
+	title = " ";
+	keyName = " ";
+	rating = -1;
+	genre = " ";
+	length = -1;
+	yearReleased = -1;
 }
 
-Media::Media(string type, string title, string keyName, int rating, string genre, int length, int yearReleased) {
-	string type = type;
-	string title = title;
-	string keyName = keyName;
-	int rating = rating;
-	string genre = genre;
-	int length = length;
-	int yearReleased = yearReleased;
+Media::Media(char type, string title, string keyName, int rating, string genre, int length, int yearReleased) {
+	this->type = type;
+	this->title = title;
+	this->keyName = keyName;
+	this->rating = rating;
+	this->genre = genre;
+	this->length = length;
+	this->yearReleased = yearReleased;
 }

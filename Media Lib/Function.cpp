@@ -18,9 +18,12 @@ void readFile(vector<Media>& m) {
 		while (getline(inSS, tempString, ',')) {
 			tempV.push_back(tempString);
 		}
-		if (tempV[0] == "B") {
-			tempV[0].c_str();
-			Media tempMedia((tempV[0], tempV[1], tempV[2], stoi(tempV[3]), tempV[4], stoi(tempV[5]), stoi(tempV[6])));
+		if (tempV[0] == "B" || "M" || "S") {
+			int r = stoi(tempV[3]);
+			int l = stoi(tempV[5]);
+			int y = stoi(tempV[6]);
+			Media tempMedia('B', tempV[1], tempV[2], r, tempV[4], l, y);
+
 			m.push_back(tempMedia);
 			getline(inFile, inString);
 			continue;

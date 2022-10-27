@@ -14,7 +14,7 @@ private:
 	int yearReleased;
 public:
 	Media();
-	Media(string type, string title, string keyName, int rating, string genre, int length, int yearReleased);
+	Media(char type, string title, string keyName, int rating, string genre, int length, int yearReleased);
 
 	char getType()        { return type; }
 	string getTitle()     { return title; }
