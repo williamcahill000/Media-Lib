@@ -18,15 +18,59 @@ void readFile(vector<Media>& m) {
 		while (getline(inSS, tempString, ',')) {
 			tempV.push_back(tempString);
 		}
-		if (tempV[0] == "B" || "M" || "S") {
-			int r = stoi(tempV[3]);
-			int l = stoi(tempV[5]);
-			int y = stoi(tempV[6]);
-			Media tempMedia('B', tempV[1], tempV[2], r, tempV[4], l, y);
+		if (tempV[0] == "B") {
+			try {
+				int r = stoi(tempV[3]);
+				int l = stoi(tempV[5]);
+				int y = stoi(tempV[6]);
+				Media tempMedia('B', tempV[1], tempV[2], r, tempV[4], l, y);
 
-			m.push_back(tempMedia);
-			getline(inFile, inString);
-			continue;
+				m.push_back(tempMedia);
+				getline(inFile, inString);
+				continue;
+			}
+			catch (...) {
+				cout << "caught something" << endl;
+				getline(inFile, inString);
+				continue;
+			}
+		}
+		if (tempV[0] == "M") {
+			try {
+				int r = stoi(tempV[3]);
+				int l = stoi(tempV[5]);
+				int y = stoi(tempV[6]);
+				Media tempMedia('M', tempV[1], tempV[2], r, tempV[4], l, y);
+
+				m.push_back(tempMedia);
+				getline(inFile, inString);
+				continue;
+			}
+			catch (...) {
+				cout << "caught something" << endl;
+				getline(inFile, inString);
+				continue;
+			}
+		}
+		if (tempV[0] == "S") {
+			try {
+				int r = stoi(tempV[3]);
+				int l = stoi(tempV[5]);
+				int y = stoi(tempV[6]);
+				Media tempMedia('S', tempV[1], tempV[2], r, tempV[4], l, y);
+
+				m.push_back(tempMedia);
+				getline(inFile, inString);
+				continue;
+			}
+			catch (...) {
+				cout << "caught something" << endl;
+				getline(inFile, inString);
+				continue;
+			}
+		}
+		if (tempV[0] == "Q") {
+			break;
 		}
 	}
 }
