@@ -1,0 +1,20 @@
+﻿  Function.cpp
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(22,18): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(23,28): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(23,108): error C2665: 'Media::Media': none of the 4 overloads could convert all the argument types
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.h(34,1): message : could be 'Media::Media(Media &&)'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.h(34,1): message : or       'Media::Media(const Media &)'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(23,19): message : 'Media::Media(const Media &)': cannot convert argument 1 from 'int' to 'const Media &'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(23,108): message : Reason: cannot convert from 'int' to 'const Media'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(23,108): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.h(34,1): message : see declaration of 'Media::Media'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(23,108): message : while trying to match the argument list '(int)'
+  Media.cpp
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.cpp(14,14): error C2082: redefinition of formal parameter 'type'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.cpp(15,17): error C2082: redefinition of formal parameter 'title'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.cpp(16,19): error C2082: redefinition of formal parameter 'keyName'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.cpp(17,15): error C2082: redefinition of formal parameter 'rating'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.cpp(18,17): error C2082: redefinition of formal parameter 'genre'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.cpp(19,15): error C2082: redefinition of formal parameter 'length'
+C:\Users\willi\source\repos\Media Lib\Media Lib\Media.cpp(20,21): error C2082: redefinition of formal parameter 'yearReleased'
+  Generating Code...
