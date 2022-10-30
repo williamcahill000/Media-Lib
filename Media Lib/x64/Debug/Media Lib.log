@@ -1,2 +1,6 @@
 ﻿  Function.cpp
-  Media Lib.vcxproj -> C:\Users\willi\source\repos\Media-Lib\x64\Debug\Media Lib.exe
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(148,10): warning C4129: ' ': unrecognized character escape sequence
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(159,10): warning C4129: ' ': unrecognized character escape sequence
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(170,10): warning C4129: ' ': unrecognized character escape sequence
+C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(181,10): warning C4129: ' ': unrecognized character escape sequence
+  Media Lib.vcxproj -> C:\Users\willi\source\repos\Media Lib\x64\Debug\Media Lib.exe
