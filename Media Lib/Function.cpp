@@ -140,6 +140,8 @@ void printMenu(vector<Media> m) {
 			case 'Q':
 				break;
 		}
+		if (choice == 'Q')
+			break;
 	}
 }
 

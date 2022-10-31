@@ -1,9 +1,3 @@
-
-
-
-
-
-
 #include "Function.h"
 #include "Media.h"
 
