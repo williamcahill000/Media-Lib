@@ -1,13 +1,21 @@
 #include "Function.h"
 
 void readFile(vector<Media>& m) {
+	//Checks for csv file and if it's valid
 	ifstream inFile;
 	inFile.open("mediaList.csv");
 	if (!inFile.is_open()) {
 		cout << "Files did not open\n";
 		return;
 	}
-
+	//Creates a output file for error records
+	ofstream outFile;
+	outFile.open("output.txt");
+	if (!outFile.is_open()) {
+		cout << "Error opening file\n";
+		return;
+	}
+	//Reads the csv file and loads the media vector according to if it's a book, movie, or song (Inspired by file reading code from class and hotel project)
 	string inString, tempString;
 	vector<string> tempV;
 
@@ -19,6 +27,7 @@ void readFile(vector<Media>& m) {
 			tempV.push_back(tempString);
 		}
 		if (tempV[0] == "B") {
+			//error checking, any errors records will be sent to outfile
 			try {
 				int r = stoi(tempV[3]);
 				int l = stoi(tempV[5]);
@@ -30,16 +39,18 @@ void readFile(vector<Media>& m) {
 				continue;
 			}
 			catch (...) {
-				cout << "Error: ";
-				for (int i = 0; i < tempV.size(); i++) {
-					cout << tempV[i] << ", ";
+				outFile << "Error: ";
+				for (int i = 1; i < tempV.size(); i++) {
+					outFile << tempV[i] << ", ";
 				}
-				cout << endl;
+				outFile << endl;
+				outFile << "previous record has an stoi error" << endl << endl;
 				getline(inFile, inString);
 				continue;
 			}
 		}
 		if (tempV[0] == "M") {
+			//error checking, any errors records will be sent to outfile
 			try {
 				int r = stoi(tempV[3]);
 				int l = stoi(tempV[5]);
@@ -51,16 +62,18 @@ void readFile(vector<Media>& m) {
 				continue;
 			}
 			catch (...) {
-				cout << "Error: ";
-				for (int i = 0; i < tempV.size(); i++) {
-					cout << tempV[i] << ", ";
+				outFile << "Error: ";
+				for (int i = 1; i < tempV.size(); i++) {
+					outFile << tempV[i] << ", ";
 				}
-				cout << endl;
+				outFile << endl;
+				outFile << "previous record has an stoi error" << endl << endl;
 				getline(inFile, inString);
 				continue;
 			}
 		}
 		if (tempV[0] == "S") {
+			//error checking, any errors records will be sent to outfile
 			try {
 				int r = stoi(tempV[3]);
 				int l = stoi(tempV[5]);
@@ -72,11 +85,12 @@ void readFile(vector<Media>& m) {
 				continue;
 			}
 			catch (...) {
-				cout << "Error: ";
-				for (int i = 0; i < tempV.size(); i++) {
-					cout << tempV[i] << ", ";
+				outFile << "Error: ";
+				for (int i = 1; i < tempV.size(); i++) {
+					outFile << tempV[i] << ", ";
 				}
-				cout << endl;
+				outFile << endl;
+				outFile << "previous record has an stoi error" << endl << endl;
 				getline(inFile, inString);
 				continue;
 			}
@@ -85,26 +99,15 @@ void readFile(vector<Media>& m) {
 			break;
 		}
 	}
-}
-
-
-void printVector(vector<Media> m) {
-	ofstream outFile;
-	outFile.open("output.txt");
-	if (!outFile.is_open()) {
-		cout << "Error opening file\n";
-		return;
-	}
-
-	for (int i = 0; i < m.size(); i++) {
-		outFile << m[i].getTitle() << " " << m[i].getKeyName() << endl;
-	}
+	outFile.close();
+	inFile.close();
 }
 
 void printMenu(vector<Media> m) {
 	bool quit = false;
 	while (quit != true) {
 		char choice;
+		cout << endl;
 		cout << "Welcome to the Media Library" << endl << endl;
 		cout << "\t\tMenu Choices" << endl;
 		cout << "M - Print Movie List" << endl;
@@ -117,6 +120,13 @@ void printMenu(vector<Media> m) {
 		cout << "Enter your choice: ";
 		cin >> choice;
 		cout << endl;
+		//If an invalid choice is given for the menu it will loop and reshow the menu
+		if (choice != 'M' && choice != 'B' && choice != 'S' && choice != 'A' && choice != 'T' && choice != 'N' && choice != 'Q') {
+			cin.clear();
+			cin.ignore();
+			cout << "Bad input, use input as directed!" << endl;
+			continue;
+		}
 
 		switch (choice) {
 			case 'M':
@@ -146,6 +156,7 @@ void printMenu(vector<Media> m) {
 }
 
 void printBookList(vector<Media> m) {
+	//I coudln't get the output to look pretty with /t nor was I sure how to use setw unless I did it to every single media line.
 	cout << "\t\tYOUR BOOK LIST" << endl << endl;
 	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
 	for (int i = 0; i < m.size(); i++) {
@@ -157,6 +168,7 @@ void printBookList(vector<Media> m) {
 }
 
 void printSongList(vector<Media> m) {
+	//I coudln't get the output to look pretty with /t nor was I sure how to use setw unless I did it to every single media line.
 	cout << "\t\tYOUR SONG LIST" << endl << endl;
 	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
 	for (int i = 0; i < m.size(); i++) {
@@ -168,6 +180,7 @@ void printSongList(vector<Media> m) {
 }
 
 void printMovieList(vector<Media> m) {
+	//I coudln't get the output to look pretty with /t nor was I sure how to use setw unless I did it to every single media line.
 	cout << "\t\tYOUR MOVIE LIST" << endl << endl;
 	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
 	for (int i = 0; i < m.size(); i++) {
@@ -179,6 +192,7 @@ void printMovieList(vector<Media> m) {
 }
 
 void printList(vector<Media> m) {
+	//I coudln't get the output to look pretty with /t nor was I sure how to use setw unless I did it to every single media line.
 	cout << "\t\tYOUR BOOK LIST" << endl << endl;
 	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
 	for (int i = 0; i < m.size(); i++) {
@@ -190,6 +204,7 @@ void printList(vector<Media> m) {
 }
 
 void printTotals(vector<Media> m) {
+	//Not done statically with the media class, but it updates with added media
 	int movies = 0;
 	int songs = 0;
 	int books = 0;
@@ -213,21 +228,66 @@ void addContent(vector<Media>& m) {
 	char type;
 	string title, name, genre;
 	int rating, length, year;
+
+
 	cout << "Enter the type of media you would like to add: ";
 	cin >> type;
+	cin.clear();
+	cin.ignore();
+
 	cout << "Enter Title: ";
-	cin >> title;
+	getline(cin, title);
+
 	cout << "Enter Name (Artist, director, author): ";
-	cin >> name;
+	getline(cin, name);
+
 	cout << "Enter Genre: ";
 	cin >> genre;
+
 	cout << "Enter Rating: ";
 	cin >> rating;
+	while (true) { // checks if the input is good, if not it will ask for proper input
+		if (cin.fail() || rating < 0 || rating > 10) {
+			cout << "Invalid input!" << endl;
+			cin.clear();
+			cin.ignore();
+			cout << "Enter Rating: ";
+			cin >> rating;
+		}
+		else
+			break;
+	}
+
+
 	cout << "Enter Length: ";
 	cin >> length;
-	cout << "Enter Year: ";	
+	while (true) { // checks if the input is good, if not it will ask for proper input
+		if (cin.fail()) {
+			cout << "Invalid input!" << endl;
+			cin.clear();
+			cin.ignore();
+			cout << "Enter Rating: ";
+			cin >> rating;
+		}
+		else
+			break;
+	}
+
+	cout << "Enter Year: ";
 	cin >> year;
+	while (true) { // checks if the input is good, if not it will ask for proper input
+		if (cin.fail() || year < 1900 || year > 2022) {
+			cout << "Invalid input!" << endl;
+			cin.clear();
+			cin.ignore();
+			cout << "Enter Rating: ";
+			cin >> rating;
+		}
+		else
+			break;
+	}
+	//pushes new media onto the media vector
 	Media tempMedia(type, title, name, rating, genre, length, year);
 	m.push_back(tempMedia);
 	cout << title << " was added to your list";
-}
+	}

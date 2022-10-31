@@ -1,0 +1,9 @@
+Error: Hidden Figures, 9, Drama, 126, 2016, Jaraji P Henson, Octavia Spencer, Janelle Monae, , 
+previous record has an stoi error
+
+Error: Fahrenheit 451, Ray Bradbury, Science Fiction, 256, 1953, , , , , 
+previous record has an stoi error
+
+Error: So I Married an Axe Murderer, Thomas Schlamme, , Comedy, 93, 1993, Mike Meyers, Nancy Travis, , 
+previous record has an stoi error
+
