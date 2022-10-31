@@ -185,7 +185,7 @@ void printMovieList(vector<Media> m) {
 	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
 	for (int i = 0; i < m.size(); i++) {
 		if (m[i].getType() == 'M') {
-			cout << i << " " << m[i].getTitle() << " " << m[i].getYearReleased() << " " << m[i].getRating() << endl;
+			cout << setw(2) << i << " " << setw(40) << left<<  m[i].getTitle() << " " << setw(10) <<  m[i].getYearReleased() << " " << setw(5) <<  m[i].getRating() << endl;
 		}
 	}
 	cout << endl;
