@@ -3,7 +3,7 @@
 void readFile(vector<Media>& m) {
 	//Checks for csv file and if it's valid
 	ifstream inFile;
-	inFile.open("mediaList.csv");
+	inFile.open("mediaList.txt");
 	if (!inFile.is_open()) {
 		cout << "Files did not open\n";
 		return;
