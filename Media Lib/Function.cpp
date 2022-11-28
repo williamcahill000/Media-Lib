@@ -107,6 +107,7 @@ void printMenu(vector<Media> m) {
 	bool quit = false;
 	while (quit != true) {
 		char choice;
+		string movie;
 		cout << endl;
 		cout << "Welcome to the Media Library" << endl << endl;
 		cout << "\t\tMenu Choices" << endl;
@@ -114,6 +115,8 @@ void printMenu(vector<Media> m) {
 		cout << "B - Print Book List" << endl;
 		cout << "S - Print Song List" << endl;
 		cout << "A - Print All Media" << endl;
+		cout << "F - Find the Movie the Star is in" << endl;
+		cout << "G - Print Stars for a Given Movie" << endl;
 		cout << "N - Add New Media" << endl;
 		cout << "T - Print Media Counts" << endl;
 		cout << "Q - Quit" << endl << endl;
@@ -121,7 +124,7 @@ void printMenu(vector<Media> m) {
 		cin >> choice;
 		cout << endl;
 		//If an invalid choice is given for the menu it will loop and reshow the menu
-		if (choice != 'M' && choice != 'B' && choice != 'S' && choice != 'A' && choice != 'T' && choice != 'N' && choice != 'Q') {
+		if (choice != 'M' && choice != 'B' && choice != 'S' && choice != 'A' && choice != 'T' && choice != 'N' && choice != 'F' && choice != 'G' && choice != 'Q') {
 			cin.clear();
 			cin.ignore();
 			cout << "Bad input, use input as directed!" << endl;
@@ -140,6 +143,13 @@ void printMenu(vector<Media> m) {
 				continue;
 			case 'A':
 				printList(m);
+				continue;
+			case 'F':
+				continue;
+			case 'G':
+				cout << "Enter a movie you would like to find the stars for: ";
+				cin >> movie;
+				listMovieStars(movie, m);
 				continue;
 			case 'T':
 				printTotals(m);
@@ -291,3 +301,20 @@ void addContent(vector<Media>& m) {
 	m.push_back(tempMedia);
 	cout << title << " was added to your list";
 	}
+
+void listMovieStars(string movie, vector<Media*>& mediaLib) {
+	vector <string> temp;
+	bool found = false;
+	for (int i = 0; i < mediaLib.size(); i++) {
+		if (mediaLib.at(i)->getTitle() == movie) {
+			found = true;
+			cout << "\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
+			cout << "THE STARS OF THE MOVIE " << movie << " ARE:  \n";
+			static_cast<Movie*>(mediaLib.at(i))->getStars();
+			break;
+		}
+	}
+	if (!found) {
+		cout << "\nSorry, but the movie: \'" << movie << "\' is not found in list." << endl;
+	}
+}

@@ -1,10 +1,9 @@
-﻿  Book.cpp
-  Function.cpp
-C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(161,10): warning C4129: ' ': unrecognized character escape sequence
-C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(173,10): warning C4129: ' ': unrecognized character escape sequence
-C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(185,10): warning C4129: ' ': unrecognized character escape sequence
-C:\Users\willi\source\repos\Media Lib\Media Lib\Function.cpp(197,10): warning C4129: ' ': unrecognized character escape sequence
-  Movie.cpp
-  Song.cpp
+﻿  Function.cpp
+C:\Users\willi\Documents\GitHub\Media-Lib\Media-Lib\Media Lib\Function.cpp(152,28): error C2664: 'void listMovieStars(std::string,std::vector<Media *,std::allocator<Media *>> &)': cannot convert argument 2 from 'std::vector<Media,std::allocator<Media>>' to 'std::vector<Media *,std::allocator<Media *>> &'
+C:\Users\willi\Documents\GitHub\Media-Lib\Media-Lib\Media Lib\Function.h(45,6): message : see declaration of 'listMovieStars'
+C:\Users\willi\Documents\GitHub\Media-Lib\Media-Lib\Media Lib\Function.cpp(171,10): warning C4129: ' ': unrecognized character escape sequence
+C:\Users\willi\Documents\GitHub\Media-Lib\Media-Lib\Media Lib\Function.cpp(183,10): warning C4129: ' ': unrecognized character escape sequence
+C:\Users\willi\Documents\GitHub\Media-Lib\Media-Lib\Media Lib\Function.cpp(195,10): warning C4129: ' ': unrecognized character escape sequence
+C:\Users\willi\Documents\GitHub\Media-Lib\Media-Lib\Media Lib\Function.cpp(207,10): warning C4129: ' ': unrecognized character escape sequence
+  Main.cpp
   Generating Code...
-  Media Lib.vcxproj -> C:\Users\willi\source\repos\Media Lib\x64\Debug\Media Lib.exe

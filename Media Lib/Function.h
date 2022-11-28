@@ -6,6 +6,9 @@
 #include <sstream>
 #include <iomanip>
 #include "Media.h"
+#include "Book.h"
+#include "Song.h"
+#include "Movie.h"
 
 void readFile(vector<Media>& m);
 //pre:Files are open in main and accessible
@@ -38,3 +41,11 @@ void printTotals(vector<Media> m);
 void addContent(vector<Media>& m);
 //pre: None
 //post: Prompt the user to enter the type of media to add. it will accept strings for all parameters.
+
+void listMovieStars(string movie, vector<Media*>& mediaLib);
+//pre: A movie name has been entered by the user.
+//post: Prints the list of the stars in the movie, Provides a message if the movie is not found.
+
+void findMovie();
+//pre: A movie star has been entered by the user.
+//post: Print the list of the movies the actor was in, Provides a message if the actor is not found.

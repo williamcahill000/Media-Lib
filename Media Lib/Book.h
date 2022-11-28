@@ -3,10 +3,11 @@
 #include "Media.h"
 
 class Book : Media {
-private:
+protected:
 	int weeksNYT;
 public:
-	int getWeeks();
-	void setWeeks(int w);
-	void incrementWeeks(int wi);
+	Book();
+	int getWeeks() { return weeksNYT; }
+	void setWeeks(int w) { weeksNYT = w; }
+	void incrementWeeks(int wi) { weeksNYT += wi; }
 };

@@ -5,10 +5,11 @@
 #include "Media.h"
 
 
-class Movie : Media {
-private:
+class Movie : public Media {
+protected:
 	vector<string> stars;
 public:
-	vector<string> getStars();
-	void setStars(vector<string> s);
+	Movie(vector<string> s);
+	vector<string> getStars()       { return stars; }
+	void setStars(vector<string> s) { stars = s; }
 };
