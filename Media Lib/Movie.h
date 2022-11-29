@@ -1,15 +1,28 @@
 #pragma once
+#include <string>
 #include <iostream>
 #include <vector>
-#include <string>
-#include "Media.h"
 
+using namespace std;
 
 class Movie : public Media {
-protected:
+
+private:
+	string director;
+	int duration;
 	vector<string> stars;
+
 public:
-	Movie(vector<string> s);
-	vector<string> getStars()       { return stars; }
-	void setStars(vector<string> s) { stars = s; }
+	Movie();
+	Movie(char, string, string, int, string, int, int, vector<string>);
+	void    setDirector(string);
+	void    setDuration(int);
+	void	  setStars(vector<string>);
+	string  getDirector();
+	int     getDuration();
+	vector<string> getStars();
+
+	void print(ostream& o);
+
+
 };

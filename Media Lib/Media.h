@@ -1,34 +1,32 @@
 #pragma once
-#include <iostream>
 #include <string>
+#include <iostream>
 using namespace std;
 
 class Media {
-private:
+
+protected:
 	char type;
 	string title;
-	string keyName;
 	int rating;
-	string genre;
-	int length;
 	int yearReleased;
+	string genre;
+
 public:
+	static int mediaCounts[4];
 	Media();
-	Media(char type, string title, string keyName, int rating, string genre, int length, int yearReleased);
+	Media(char, string, int, int, string);
+	void setType(char c);
+	void setTitle(string t);
+	void setRating(int r);
+	void setYearReleased(int yr);
+	void setGenre(string g);
 
-	char getType()        { return type; }
-	string getTitle()     { return title; }
-	string getKeyName()   { return keyName; }
-	int getRating()       { return rating; }
-	string getGenre()     { return genre; }
-	int getLength()       { return length; }
-	int getYearReleased() { return yearReleased; }
+	char   getType();
+	string getTitle();
+	int    getRating();
+	int    getYearReleased();
+	string getGenre();
 
-	void setType(char t)         { type = t; }
-	void setTitle(string t)      { title = t; }
-	void setKeyName(string k)    { keyName = k; }
-	void setRating(int r)        { rating = r; }
-	void setGenre(string g)      { genre = g; }
-	void setLength(int l)        { length = l; }
-	void setYearReleased(int yr) { yearReleased = yr; }
+	virtual void print(ostream& o);
 };

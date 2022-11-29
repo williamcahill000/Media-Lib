@@ -1,15 +1,22 @@
 #pragma once
+#include <string>
 #include <iostream>
-#include "Media.h"
-#include "Book.h"
-#include "Movie.h"
 
-class Song : Book {
+using namespace std;
+
+class Music : public Media {
+
 private:
-	bool top40;
+	string artist;
+	int duration;
+
 public:
-	Song();
-	int getWeeks() { return weeksNYT; }
-	void setWeeks(int w) { weeksNYT = w; }
-	void incrementWeeks(int wi) { weeksNYT += wi; }
+	Music();
+	Music(char, string, string, int, string, int, int);
+	void    setArtist(string);
+	void    setDuration(int);
+	string  getArtist();
+	int     getDuration();
+	void print();
+	void print(ostream& o);
 };

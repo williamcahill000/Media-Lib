@@ -1,320 +1,195 @@
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <vector>
 #include "Function.h"
+#include "Media.h"
+#include "Book.h"
+#include "Movie.h"
+#include "Song.h"
+using namespace std;
 
-void readFile(vector<Media>& m) {
-	//Checks for csv file and if it's valid
-	ifstream inFile;
-	inFile.open("mediaList.txt");
-	if (!inFile.is_open()) {
-		cout << "Files did not open\n";
-		return;
-	}
-	//Creates a output file for error records
-	ofstream outFile;
-	outFile.open("output.txt");
-	if (!outFile.is_open()) {
-		cout << "Error opening file\n";
-		return;
-	}
-	//Reads the csv file and loads the media vector according to if it's a book, movie, or song (Inspired by file reading code from class and hotel project)
-	string inString, tempString;
-	vector<string> tempV;
+int readData(istream& inFile, ostream& outFile, vector<Media*>& mediaLib) {
+    cout << "\n\n\nLoading Data File\n\n\n";
+    //outFile << "" << endl;
+    string inLine, title, director, genre, tempStr, testChar, name, author;
+    int rating, duration, year, pages;
+    vector<string> stars;
+    vector<string> row;
+    char choice = ' ';
 
-	getline(inFile, inString);
-	while (inFile.good()) {
-		stringstream inSS(inString);
-		tempV.clear();
-		while (getline(inSS, tempString, ',')) {
-			tempV.push_back(tempString);
-		}
-		if (tempV[0] == "B") {
-			//error checking, any errors records will be sent to outfile
-			try {
-				int r = stoi(tempV[3]);
-				int l = stoi(tempV[5]);
-				int y = stoi(tempV[6]);
-				Media tempMedia('B', tempV[1], tempV[2], r, tempV[4], l, y);
+    while (inFile.good()) {
+        getline(inFile, inLine);
+        testChar = inLine.substr(0, 1);
+        if (testChar == "Q")
+            break;
 
-				m.push_back(tempMedia);
-				getline(inFile, inString);
-				continue;
-			}
-			catch (...) {
-				outFile << "Error: ";
-				for (int i = 1; i < tempV.size(); i++) {
-					outFile << tempV[i] << ", ";
-				}
-				outFile << endl;
-				outFile << "previous record has an stoi error" << endl << endl;
-				getline(inFile, inString);
-				continue;
-			}
-		}
-		if (tempV[0] == "M") {
-			//error checking, any errors records will be sent to outfile
-			try {
-				int r = stoi(tempV[3]);
-				int l = stoi(tempV[5]);
-				int y = stoi(tempV[6]);
-				Media tempMedia('M', tempV[1], tempV[2], r, tempV[4], l, y);
+        //read data in string vector
+        row.clear();
+        stringstream inSS(inLine);
+        while (getline(inSS, tempStr, ',')) {
+            row.push_back(tempStr);
+        }
 
-				m.push_back(tempMedia);
-				getline(inFile, inString);
-				continue;
-			}
-			catch (...) {
-				outFile << "Error: ";
-				for (int i = 1; i < tempV.size(); i++) {
-					outFile << tempV[i] << ", ";
-				}
-				outFile << endl;
-				outFile << "previous record has an stoi error" << endl << endl;
-				getline(inFile, inString);
-				continue;
-			}
-		}
-		if (tempV[0] == "S") {
-			//error checking, any errors records will be sent to outfile
-			try {
-				int r = stoi(tempV[3]);
-				int l = stoi(tempV[5]);
-				int y = stoi(tempV[6]);
-				Media tempMedia('S', tempV[1], tempV[2], r, tempV[4], l, y);
+        //parse data for Book type
+        if (testChar == "B") {
+            title = row[1];
+            author = row[2];
+            genre = row[4];
+            try {
+                rating = stoi(row[3]);
+                pages = stoi(row[5]);
+                year = stoi(row[6]);
+            }
+            catch (invalid_argument& e) {
+                //outFile << "" << endl;
+                string msg = "\nERROR: " + inLine.substr(0, inLine.length() - 2);
+                outFile << msg << "\nPrevious record has an " << e.what() << " error\n\n";
+                continue;
+            }
+            catch (string a) {
+                cout << a << endl;
+                exit(1);
+            }
+            char type = 'B';
+            Book* tempBook = new Book(type, title, author, rating, genre, pages, year);
 
-				m.push_back(tempMedia);
-				getline(inFile, inString);
-				continue;
-			}
-			catch (...) {
-				outFile << "Error: ";
-				for (int i = 1; i < tempV.size(); i++) {
-					outFile << tempV[i] << ", ";
-				}
-				outFile << endl;
-				outFile << "previous record has an stoi error" << endl << endl;
-				getline(inFile, inString);
-				continue;
-			}
-		}
-		if (tempV[0] == "Q") {
-			break;
-		}
-	}
-	outFile.close();
-	inFile.close();
+            mediaLib.push_back(tempBook);
+            Media::mediaCounts[0]++;
+            Media::mediaCounts[1] += 1;
+            // all other data types need to be added
+        }
+        else if (testChar == "M") {
+            char type = 'M';
+            title = row[1];
+            director = row[2];
+            genre = row[4];
+            try {
+                rating = stoi(row[3]);
+                duration = stoi(row[5]);
+                year = stoi(row[6]);
+                stars.clear();
+                for (int i = 7; i < row.size(); i++) {
+                    string newStuff = row[i];
+                    if (i == row.size() - 1) {
+                        newStuff.resize(newStuff.size());
+                    }
+                    stars.push_back(newStuff);
+                }
+                Movie* tempMovie = new Movie(type, title, director, rating, genre, duration, year, stars);
+                mediaLib.push_back(tempMovie);
+                Media::mediaCounts[0]++;
+                Media::mediaCounts[2]++;
+            }
+            catch (invalid_argument& e) {
+                string msg = "\nERROR: " + inLine.substr(0, inLine.length() - 2);
+                outFile << msg << "\nPrevious record has an " << e.what() << " error\n\n";
+                continue;
+            }
+            catch (string a) {
+                cout << a << endl;
+                exit(1);
+            }
+        }
+        else if (testChar == "S") {
+            char type = 'S';
+            title = row[1];
+            director = row[2];
+            genre = row[4];
+            try {
+                rating = stoi(row[3]);
+                duration = stoi(row[5]);
+                year = stoi(row[6]);
+                Music* tempMusic = new Music(type, title, director, rating, genre, duration, year);
+                mediaLib.push_back(tempMusic);
+                Media::mediaCounts[0]++;
+                Media::mediaCounts[3]++;
+            }
+            catch (invalid_argument& e) {
+                string msg = "\nERROR: " + inLine.substr(0, inLine.length() - 2);
+                outFile << msg << "\nPrevious record has an " << e.what() << " error\n\n";
+                continue;
+            }
+            catch (string a) {
+                cout << a << endl;
+                exit(1);
+            }
+        }
+    }
+    return 0;
 }
 
-void printMenu(vector<Media> m) {
-	bool quit = false;
-	while (quit != true) {
-		char choice;
-		string movie;
-		cout << endl;
-		cout << "Welcome to the Media Library" << endl << endl;
-		cout << "\t\tMenu Choices" << endl;
-		cout << "M - Print Movie List" << endl;
-		cout << "B - Print Book List" << endl;
-		cout << "S - Print Song List" << endl;
-		cout << "A - Print All Media" << endl;
-		cout << "F - Find the Movie the Star is in" << endl;
-		cout << "G - Print Stars for a Given Movie" << endl;
-		cout << "N - Add New Media" << endl;
-		cout << "T - Print Media Counts" << endl;
-		cout << "Q - Quit" << endl << endl;
-		cout << "Enter your choice: ";
-		cin >> choice;
-		cout << endl;
-		//If an invalid choice is given for the menu it will loop and reshow the menu
-		if (choice != 'M' && choice != 'B' && choice != 'S' && choice != 'A' && choice != 'T' && choice != 'N' && choice != 'F' && choice != 'G' && choice != 'Q') {
-			cin.clear();
-			cin.ignore();
-			cout << "Bad input, use input as directed!" << endl;
-			continue;
-		}
-
-		switch (choice) {
-			case 'M':
-				printMovieList(m);
-				continue;
-			case 'B':
-				printBookList(m);
-				continue;
-			case 'S':
-				printSongList(m);
-				continue;
-			case 'A':
-				printList(m);
-				continue;
-			case 'F':
-				continue;
-			case 'G':
-				cout << "Enter a movie you would like to find the stars for: ";
-				cin >> movie;
-				listMovieStars(movie, m);
-				continue;
-			case 'T':
-				printTotals(m);
-				continue;
-			case 'N':
-				addContent(m);
-				continue;
-			case 'Q':
-				break;
-		}
-		if (choice == 'Q')
-			break;
-	}
+char menu() {
+    char tempChoice;
+    cout << "MENU CHOICES" << endl;
+    cout << "M - Print Movie List" << endl;
+    cout << "B - Print Book List" << endl;
+    cout << "S - Print Song List" << endl;
+    cout << "A - Print All Media" << endl;
+    cout << "G - Print Stars for a Given Movie" << endl;
+    cout << "F - Find the Movie the Star is in" << endl;
+    cout << "T - Print Media Counts" << endl;
+    cout << "Q - Quit" << endl;
+    cout << endl;
+    cout << "Enter your choice: ";
+    cin >> tempChoice;
+    tempChoice = toupper(tempChoice);
+    cout << "***" << tempChoice << endl;
+    return tempChoice;
 }
 
-void printBookList(vector<Media> m) {
-	//I coudln't get the output to look pretty with /t nor was I sure how to use setw unless I did it to every single media line.
-	cout << "\t\tYOUR BOOK LIST" << endl << endl;
-	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
-	for (int i = 0; i < m.size(); i++) {
-		if (m[i].getType() == 'B') {
-			cout << i << " " << m[i].getTitle() << " " << m[i].getYearReleased() << " " << m[i].getRating() << endl;
-		}
-	}
-	cout << endl;
+void printList(vector<Media*>& cinema, char type, string word) {
+    cout << "\t\t\t\tYOUR " << word << " LIST" << endl;
+    cout << "#         Title                             YEAR    RATING" << endl;
+    int counter = 1;
+    for (int i = 0; i < cinema.size(); i++) {
+        if (cinema[i]->getType() == type) {
+            cout << left << setw(4) << counter << left << setw(40) << cinema[i]->getTitle() << setw(8) << cinema[i]->getYearReleased() << cinema[i]->getRating() << endl;
+            counter++;
+        }
+    }
 }
 
-void printSongList(vector<Media> m) {
-	//I coudln't get the output to look pretty with /t nor was I sure how to use setw unless I did it to every single media line.
-	cout << "\t\tYOUR SONG LIST" << endl << endl;
-	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
-	for (int i = 0; i < m.size(); i++) {
-		if (m[i].getType() == 'S') {
-			cout << i << " " << m[i].getTitle() << " " << m[i].getYearReleased() << " " << m[i].getRating() << endl;
-		}
-	}
-	cout << endl;
+void printList(vector<Media*>& cinema) {
+    cout << "\t\t\t\tYOUR MEDIA LIST" << endl;
+    cout << "#         Title                             YEAR    RATING" << endl;
+    int counter = 1;
+    for (int i = 0; i < cinema.size(); i++) {
+        //if(cinema[i]->getType() == type){
+        cout << left << setw(4) << counter << left << setw(40) << cinema[i]->getTitle() << setw(8) << cinema[i]->getYearReleased() << cinema[i]->getRating() << endl;
+        counter++;
+        //}
+    }
 }
 
-void printMovieList(vector<Media> m) {
-	//I coudln't get the output to look pretty with /t nor was I sure how to use setw unless I did it to every single media line.
-	cout << "\t\tYOUR MOVIE LIST" << endl << endl;
-	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
-	for (int i = 0; i < m.size(); i++) {
-		if (m[i].getType() == 'M') {
-			cout << setw(2) << i << " " << setw(40) << left<<  m[i].getTitle() << " " << setw(10) <<  m[i].getYearReleased() << " " << setw(5) <<  m[i].getRating() << endl;
-		}
-	}
-	cout << endl;
+vector<string> starsFromMovies(vector<Media*>& cinema, string tempMovieName) {
+    vector<string> empty;
+    for (int i = 0; i < cinema.size(); i++) {
+        if (cinema[i]->getType() == 'M') {
+            if (cinema[i]->getTitle() == tempMovieName) {
+                //cout << cinema[i].getStars().size();
+                return static_cast<Movie*>(cinema[i])->getStars();
+            }
+        }
+    }
+    return empty;
 }
 
-void printList(vector<Media> m) {
-	//I coudln't get the output to look pretty with /t nor was I sure how to use setw unless I did it to every single media line.
-	cout << "\t\tYOUR BOOK LIST" << endl << endl;
-	cout << "#\t\t   TITLE\t\tYEAR\  RATING" << endl;
-	for (int i = 0; i < m.size(); i++) {
-		if (m[i].getType() == 'B' || m[i].getType() == 'S' || m[i].getType() == 'M') {
-			cout << i << " " << m[i].getTitle() << " " << m[i].getYearReleased() << " " << m[i].getRating() << endl;
-		}
-	}
-	cout << endl;
-}
-
-void printTotals(vector<Media> m) {
-	//Not done statically with the media class, but it updates with added media
-	int movies = 0;
-	int songs = 0;
-	int books = 0;
-	for (int i = 0; i < m.size(); i++) {
-		if (m[i].getType() == 'B')
-			books += 1;
-		if (m[i].getType() == 'S')
-			songs += 1;
-		if (m[i].getType() == 'M')
-			movies += 1;
-	}
-	cout << "YOUR MEDIA LIBRARY" << endl << endl;
-	cout << "#\t TYPE" << endl;
-	cout << movies << "\tMovies" << endl;
-	cout << books << "\tBooks" << endl;
-	cout << songs << "\tSongs" << endl;
-	cout << (movies + books + songs) << "\tItems" << endl;
-}
-
-void addContent(vector<Media>& m) {
-	char type;
-	string title, name, genre;
-	int rating, length, year;
-
-
-	cout << "Enter the type of media you would like to add: ";
-	cin >> type;
-	cin.clear();
-	cin.ignore();
-
-	cout << "Enter Title: ";
-	getline(cin, title);
-
-	cout << "Enter Name (Artist, director, author): ";
-	getline(cin, name);
-
-	cout << "Enter Genre: ";
-	cin >> genre;
-
-	cout << "Enter Rating: ";
-	cin >> rating;
-	while (true) { // checks if the input is good, if not it will ask for proper input
-		if (cin.fail() || rating < 0 || rating > 10) {
-			cout << "Invalid input!" << endl;
-			cin.clear();
-			cin.ignore();
-			cout << "Enter Rating: ";
-			cin >> rating;
-		}
-		else
-			break;
-	}
-
-
-	cout << "Enter Length: ";
-	cin >> length;
-	while (true) { // checks if the input is good, if not it will ask for proper input
-		if (cin.fail()) {
-			cout << "Invalid input!" << endl;
-			cin.clear();
-			cin.ignore();
-			cout << "Enter Rating: ";
-			cin >> rating;
-		}
-		else
-			break;
-	}
-
-	cout << "Enter Year: ";
-	cin >> year;
-	while (true) { // checks if the input is good, if not it will ask for proper input
-		if (cin.fail() || year < 1900 || year > 2022) {
-			cout << "Invalid input!" << endl;
-			cin.clear();
-			cin.ignore();
-			cout << "Enter Rating: ";
-			cin >> rating;
-		}
-		else
-			break;
-	}
-	//pushes new media onto the media vector
-	Media tempMedia(type, title, name, rating, genre, length, year);
-	m.push_back(tempMedia);
-	cout << title << " was added to your list";
-	}
-
-void listMovieStars(string movie, vector<Media*>& mediaLib) {
-	vector <string> temp;
-	bool found = false;
-	for (int i = 0; i < mediaLib.size(); i++) {
-		if (mediaLib.at(i)->getTitle() == movie) {
-			found = true;
-			cout << "\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
-			cout << "THE STARS OF THE MOVIE " << movie << " ARE:  \n";
-			static_cast<Movie*>(mediaLib.at(i))->getStars();
-			break;
-		}
-	}
-	if (!found) {
-		cout << "\nSorry, but the movie: \'" << movie << "\' is not found in list." << endl;
-	}
+vector<string> moviesFromStar(vector<Media*>& cinema, string tempStarName) {
+    vector<string> movieNames;
+    for (int i = 0; i < cinema.size(); i++) {
+        if (cinema[i]->getType() == 'M') {
+            for (int j = 0; j < static_cast<Movie*>(cinema[i])->getStars().size(); j++) {
+                //cout << cinema[i].getStars().at(j) << endl;
+                string cinemaListString = static_cast<Movie*>(cinema[i])->getStars().at(j);
+                //str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
+                if (cinemaListString == tempStarName) {
+                    movieNames.push_back(cinema[i]->getTitle());
+                }
+            }
+        }
+    }
+    return movieNames;
 }

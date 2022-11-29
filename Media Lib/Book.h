@@ -1,13 +1,22 @@
 #pragma once
+#include <string>
 #include <iostream>
-#include "Media.h"
 
-class Book : Media {
-protected:
-	int weeksNYT;
+using namespace std;
+
+class Book : public Media {
+
+private:
+	string author;
+	int pages;
+
 public:
 	Book();
-	int getWeeks() { return weeksNYT; }
-	void setWeeks(int w) { weeksNYT = w; }
-	void incrementWeeks(int wi) { weeksNYT += wi; }
+	Book(char, string, string, int, string, int, int);
+	void    setAuthor(string);
+	void    setPages(int);
+	string  getAuthor();
+	int     getPages();
+
+	void print(ostream& o);
 };
